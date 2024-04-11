@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentor Login</title>
+<style>
+    /* Insert the other existing styles... */
+
+    .containerBase {
+        background: #02918fe8;
+        border-radius: 20px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        text-align:left;
+        margin-bottom: 80px;
+        margin-top: 40px;
+    }
+    .containerBaseInterior{
+        padding: 20px;
+    }
+    .resumenSolicitud {
+        margin-top: 0;
+        font-size: 1.2em;
+        color: #e8e8e8;
+    }
+    h1 {
+        text-align: center;
+        color: #23444B;
+        font-size: 40px;
+        padding-top: 15px;
+    }
+    h4 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        color: #ffffff;
+    }
+    .search-button {
+        margin-top: 10px;
+        background-color: #ADD8E6;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        color: white;
+        cursor: pointer;
+        margin-top: 30px;
+    }
+    .skill-button {
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        margin-top: 5px; /* Spacing between skill items */
+        border: 1px solid #ddd;
+        background-color: #02918fe8;
+    }
+    .delete-skill-btn {
+        margin-left: 10px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #b6d4fb;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+    .large-textbox {
+        width: 100%;
+        height: 150px;
+        margin-top: 20px;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+</head>
+<body>
+
+<div class="containerBase">
+
+    <div class="containerBaseInterior">
+        <h1>Mentor Login</h1>
+        <form action="" method="POST">
+            <div class="form-group">
+                <h4>Name*:</h4>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h4>Surname*:</h4>
+                <input type="text" name="surname" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h4>Company:</h4>
+                <input type="text" name="company" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h4>Skills*:</h4>
+                <input type="text" id="skill-input" class="form-control">
+                <button type="button" onclick="addSkill()" class="btn-skill-add">Add Skill</button>
+                <div id="skill-list">
+                </div>
+            </div>
+            <div class="form-group">
+                <h4>LinkedIn Profile:</h4>
+                <input type="url" name="linkedin" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h4>Password*:</h4>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <h4>Re-enter Password*:</h4>
+                <input type="password" name="revalidate_password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="search-button">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+function addSkill() {
+    var skillInput = document.getElementById('skill-input');
+    var skillList = document.getElementById('skill-list');
+
+    // Only add non-empty skills
+    if(skillInput.value.trim() === "") return;
+
+    // Create a new skill item
+    var newSkill = document.createElement('div');
+    newSkill.className = 'skill-button'; // Add the search-button class to the skill div
+
+    // Create a span to hold the skill text
+    var skillText = document.createElement('span');
+    skillText.textContent = skillInput.value;
+    newSkill.appendChild(skillText);
+
+    // Create a delete button for the skill item
+    var deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    // Add classes to style the button as needed
+    deleteBtn.className = 'delete-skill-btn';
+    deleteBtn.onclick = function() {
+        skillList.removeChild(newSkill);
+    };
+    // Append the delete button to the new skill item
+    newSkill.appendChild(deleteBtn);
+
+    // Append the new skill to the list
+    skillList.appendChild(newSkill);
+    
+    // Clear the input field for the next skill entry
+    skillInput.value = '';
+}
+</script>
+
+
+</body>
+</html>

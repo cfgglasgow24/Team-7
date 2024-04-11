@@ -9,3 +9,12 @@ def filter(request):
 
 def request(request):
     return render(request, 'request.html', {})
+
+def register_mentor(request):
+    return render(request, 'register_mentor.html', {})
+
+def register_mentee(request):
+    return render(request, 'register_mentee.html', {})
+    
+def login(request):
+    return render(request, 'login.html', {})
