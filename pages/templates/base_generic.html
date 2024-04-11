@@ -1,34 +1,94 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <title>
-        CodeDivisionMentoring -
-        {% block title_block %}
-        {% endblock %}
-      </title>
-      <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-      {% block stylesheet_block %}
-      {% endblock %}
-      {% block script_block %}
-      {% endblock %}
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #e0f7f8;
+          color: #333;
+          margin: 0;
+          padding: 20px;
+  
+      }
+  
+      p {
+          font-size: 20px;
+      }
+  
+      .homepage {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+      }
+          
+      .homepage .left_home,
+      .homepage .right_home {
+          width: 48%;
+          padding: 20px;
+          border: 5px outset deepskyblue;
+          border-radius: 10px;
+          background-color: white;
+          box-sizing: border-box;
+      }
+  
+      .homepage a {
+          text-decoration: none;
+          color: inherit;
+      }
+  
+      @media only screen and (max-width: 768px) {
+          .homepage {
+              flex-direction: column;
+          }
+          .homepage .left_home,
+          .homepage .right_home {
+              width: 100%;
+              margin-bottom: 20px;
+          }
+      }
+  
+      nav {
+          background-color: deepskyblue; /* Dark background color */
+      }
+  
+      nav ul {
+          list-style-type: none; /* Remove bullets */
+          margin: 0;
+          padding: 0;
+          overflow: hidden; /* Clear floats */
+      }
+  
+      nav ul li {
+          float: left; /* Float the list items horizontally */
+      }
+  
+      nav ul li a {
+          display: block; /* Make the links block-level elements */
+          color: black; /* Text color */
+          text-align: center; /* Center-align text */
+          padding: 14px 20px; /* Padding */
+          text-decoration: none; /* Remove underline */
+      }
+  
+      nav ul li a:hover {
+          background-color: lightskyblue; /* Darker background color on hover */
+      }
+  </style>
   </head>
 
   <body>
+    <h1>Code Division Mentoring</h1>
     <nav>
       <ul class="nav-links">
-          <li><a href="{% url 'CodeDivisionMentoring:home' %}">Home</a></li>
-          <li><a href="{% url 'CodeDivisionMentoring:cv' %}">CV Help</a></li>
-          <li><a href="{% url 'CodeDivisionMentoring:mentorship' %}">Request Mentoring</a></li>
-          <li><a href="{% url 'CodeDivisionMentoring:job_opportunities' %}">Job Opportunities</a></li>
-          <li><a href="{% url 'CodeDivisionMentoring:support' %}">External Support</a></li>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="cv.html">CV Help</a></li>
+          <li><a href="mentorship.html">Request Mentoring</a></li>
+          <li><a href="job_opportunities.html">Job Opportunities</a></li>
+          <li><a href="support.html">External Support</a></li>
       </ul>
-    </nav>
+    </nav><br>
 
-    <div class="main">
-      <div class="main-content">
-      {% block body_block %}
-      {% endblock %}
-      </div>
-    </div>
+    {% block body_block %}
+    {% endblock %}
   </body>
 </html>
