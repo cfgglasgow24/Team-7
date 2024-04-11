@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends "base_generic.html" %}
-{% load staticfiles %}
+{% files %}
 {% load CodeDivisionMentoring_template_tags %}
 
 {% block title %}
@@ -90,6 +90,16 @@
         </div>
     </a>
     </div>
+
+    <!-- Link to Add Event page -->
+    <div class="left_home">
+    <a href="{% url 'CodeDivisionMentoring:addEvent' %}">Add Event</a>
+        <div>
+            <h1>Add Social Event</h1><br>
+            <p> hi </p>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
