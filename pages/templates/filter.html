@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filter Mentors</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-color: #f4f7fa;
+    }
+    .container {
+        display: flex;
+    }
+    .filter-section,
+    .mentors-section {
+        padding: 20px;
+    }
+    .filter-section {
+        width: 25%;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .mentors-section {
+        width: 75%;
+    }
+    h2 {
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+    .selection-group {
+        margin-bottom: 10px;
+    }
+    select[multiple] {
+        width: 100%;
+        height: auto;
+        background-color: #e6f3ff;
+        border: 1px solid #b6d4fb;
+    }
+    .mentor-profile {
+        background-color: #ffffff;
+        border: 1px solid #dae1e7;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+    .profile-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+    }
+    .profile-image {
+        width: 80px;
+        height: 80px;
+        background-color: #f0f2f4;
+        border-radius: 50%;
+        display: block;
+        margin: 10px auto;
+    }
+    .profile-info {
+        padding: 15px;
+    }
+    .skillset {
+        background-color: #e6f3ff;
+        padding: 5px 10px;
+        border-radius: 2px;
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .search-button {
+        margin-top: 10px; /* Adjust as needed for spacing around the button */
+        background-color: #ADD8E6; /* Light blue color */
+        border: none;
+        border-radius: 4px; /* Optional: gives rounded corners to the button */
+        padding: 10px 20px; /* Adjust padding to increase or decrease button size */
+        color: white; /* Change text color if needed */
+        cursor: pointer;
+        margin-left: 15px;
+        margin-bottom: 15px;
+    }
+    
+</style>
+</head>
+<body>
+{% load static %}
+
+<div class="container">
+
+    <div class="filter-section">
+        <h2>Filter Mentor</h2>
+        <div class="selection-group">
+            <select multiple size="20">
+                <option value="management">Management</option>
+                <option value="technology">Technology</option>
+                <optgroup label="Technology Subsections">
+                    <option value="software-engineering">Software Engineering</option>
+                    <option value="it-support">IT Support</option>
+                    <option value="Cloud Engineering">Cloud Engineering</option>
+                    <option value="ai-ml-dl">Artificial Intelligence & ML/DL</option>
+                </optgroup>
+                <option value="financial-services">Financial Services</option>
+                <option value="real-estate">Real Estate</option>
+                <option value="building-construction">Building & Construction</option>
+                <option value="education">Education</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="law">Law</option>
+                <option value="retail">Retail</option>
+                <option value="manufacturing">Manufacturing</option>
+            </select>
+        </div>
+        <div class="left-column">
+            <button class="search-button">Search</button>
+        </div>
+    </div>
+
+    <div class="mentors-section">
+        <h2>Mentor Available</h2>
+
+        <div class="mentor-profile">
+            <div class="profile-header">Jane Doe</div>
+            <img src={% static 'img/blank-profile-picture.png' %} alt="Profile picture" class="profile-image">
+            <div class="profile-info">
+                <div>
+                    <p><strong>Skills:</strong></p>
+                    <span class="skillset">Project Management</span>
+                    <span class="skillset">Agile Scrum</span>
+                </div>
+                <div>
+                    <p><strong>Company:</strong></p>
+                    <span class="skillset">J.P.Morgan</span>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="search-button">Request</button>
+            </div>
+        </div>
+        <div class="mentor-profile">    
+            <div class="profile-header">John Smith</div>
+            <img src={% static 'img/blank-profile-picture.png' %} alt="Profile picture" class="profile-image">
+            <div class="profile-info">
+                <div>
+                    <p><strong>Skills:</strong></p>
+                    <span class="skillset">Data Analysis</span>
+                    <span class="skillset">Machine Learning</span>
+                </div>
+                <div>
+                    <p><strong>Company:</strong></p>
+                    <span class="skillset">Goldman Sachs</span>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="search-button">Request</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
