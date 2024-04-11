@@ -87,6 +87,22 @@
           background-color: lightskyblue; /* Darker background color on hover */
       }
 
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9; /* Background color for the dropdown */
+        min-width: 160px;
+        z-index: 1;
+      }
+
+      .dropdown-content li {
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
       .footer img {
         border-radius: 5px;
         width: 50px;
@@ -106,9 +122,6 @@
     <h1 class="company">Code Division Mentoring</h1>
     <nav>
       <ul class="nav-links">
-          <li class = "nav-item">
-            <a class="text-nav" href = "{% url 'home' %}">Home</a></li>
-          </li>
 
           <li class = "nav-item">
             <a class="text-nav" href = "{% url 'cv' %}">CV Help</a></li>
@@ -119,7 +132,7 @@
           </li>
 
           <li class = "nav-item">
-            <a class="text-nav" href = "{% url 'job_opportunities' %}">Job opportunities</a></li>
+            <a class="text-nav" href = "{% url 'job_opportunities' %}">Job Opportunities</a></li>
           </li>
 
           <li class = "nav-item">
@@ -130,9 +143,21 @@
             <a class="text-nav" href = "{% url 'addEvent' %}">Add Event</a></li>
           </li>
 
+          <li class="dropdown">
+            <a href="#">Login/Register &#9662;</a>
+              <ul class="dropdown-content">
+              <li class = "nav-item">
+                <a class="text-nav" href = "{% url 'login' %}">Login</a></li>
+              </li>
 
-          
+              <li class = "nav-item">
+                <a class="text-nav" href = "{% url 'register_mentee' %}">Register Mentee</a></li>
+              </li>
 
+              <li class = "nav-item">
+                <a class="text-nav" href = "{% url 'register_mentor' %}">Register Mentor</a></li>
+              </li>
+            </ul>
       </ul>
     </nav><br>
 
