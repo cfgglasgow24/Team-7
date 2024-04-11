@@ -11,6 +11,14 @@
           padding: 20px;
   
       }
+
+      .company {
+        width: 100%; 
+        text-align: center;
+        font-weight: bold; 
+        transform: scaleX(1.5);
+      }
+
   
       p {
           font-size: 20px;
@@ -21,6 +29,10 @@
               justify-content: space-between;
               margin-bottom: 10px;
       }
+
+      .homepage h1{
+        text-shadow: 2px 2px 4px grey;
+      }
           
       .homepage .left_home,
       .homepage .right_home {
@@ -28,8 +40,8 @@
           padding: 20px;
           border: 5px outset deepskyblue;
           border-radius: 10px;
-          background-color: white;
           box-sizing: border-box;
+          background-image: url('static/img/background.avif');
       }
   
       .homepage a {
@@ -74,11 +86,24 @@
       nav ul li a:hover {
           background-color: lightskyblue; /* Darker background color on hover */
       }
+
+      .footer img {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+      }
+
+      .footer p {
+        font-weight: bold;
+      }
+
   </style>
+  {% block stylesheet_block %}
+  {% endblock %}
   </head>
 
   <body>
-    <h1>Code Division Mentoring</h1>
+    <h1 class="company">Code Division Mentoring</h1>
     <nav>
       <ul class="nav-links">
           <li class = "nav-item">
@@ -112,5 +137,16 @@
 
     {% block body_block %}
     {% endblock %}
+
+    <div class="footer">
+      <p>Visit our website: <a href="https://codedivision.co.uk">codedivision.co.uk</a></p>
+      <div class="social_media">
+        <p>Follow us:</p>
+        <a href="https://www.facebook.com/codedivision.uk/"><img src="static/img/facebook_icon.png" alt="Facebook"></a>
+        <a href="https://www.instagram.com/codedivision.uk/"><img src="static/img/instagram.png" alt="Instagram"></a>
+        <a href="https://www.linkedin.com/school/codedivision1/"><img src="static/img/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://twitter.com/codedivision_uk?lang=en"><img src="static/img/x_icon.png" alt="X"></a>
+      </div>
+    </div>
   </body>
 </html>
