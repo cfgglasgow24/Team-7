@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>
+        CodeDivisionMentoring -
+        {% block title_block %}
+        {% endblock %}
+      </title>
+      <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+      {% block stylesheet_block %}
+      {% endblock %}
+      {% block script_block %}
+      {% endblock %}
+  </head>
+
+  <body>
+    <nav>
+      <ul class="nav-links">
+          <li><a href="{% url 'CodeDivisionMentoring:home' %}">Home</a></li>
+          <li><a href="{% url 'CodeDivisionMentoring:cv' %}">CV Help</a></li>
+          <li><a href="{% url 'CodeDivisionMentoring:mentorship' %}">Request Mentoring</a></li>
+          <li><a href="{% url 'CodeDivisionMentoring:job_opportunities' %}">Job Opportunities</a></li>
+          <li><a href="{% url 'CodeDivisionMentoring:support' %}">External Support</a></li>
+      </ul>
+    </nav>
+
+    <div class="main">
+      <div class="main-content">
+      {% block body_block %}
+      {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>
