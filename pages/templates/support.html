@@ -14,10 +14,16 @@
                 margin-top: 50px;
                 color: #01579b; /* Darker blue for heading text */
             }
+
             .category {
+                display: flex;
+                align-items: center; /* This centers the boxes and headings horizontally */
+                flex-wrap: wrap;
+                justify-content: center; /* This centers the content horizontally, change to 'flex-start' to align left */
                 margin-top: 50px;
                 text-align: center;
             }
+
             .category h2 {
                 font-size: 24px;
                 font-weight: bold;
@@ -25,7 +31,8 @@
                 color: #0277bd; /* Blue shade for subheadings */
             }
             .box {
-                display: inline-block;
+                justify-content: center;
+                align-items: center;
                 width: 200px;
                 height: 200px;
                 background-color: #ffffff; /* White background for boxes */
@@ -44,56 +51,66 @@
     </head>
     <body>
         <h1>External Support</h1>
-
+        <h2 style="text-align: center; color: darkblue;">Mental Health Support</h2>
         <div class="category">
-            <h2>Mental Health Support</h2>
             <div class="box">
                 <a href="samh.org.uk/informationservice">SAMH</a>
+                <p>SAMH is Scotland’s national mental health charity, providing mental health social care support, addictions and employment services, among others.</p>
             </div>
             <div class="box">
                 <a href="https://www.samaritans.org/">Samaritans</a>
+                <p>Support, day, or night, for anyone struggling to cope and in need of someone to listen without judgement or pressure.</p>
             </div>
             <div class="box">
                 <a href="https://breathingspace.scot/">Breathing Space</a>
+                <p>A free, confidential phone and web-based service for people in Scotland experiencing low mood, depression, or anxiety.</p>
             </div>
         </div>
-
+        <h2 style="text-align: center; color: darkblue;">Employment Support</h2>
         <div class="category">
-            <h2>Employment Support</h2>
             <div class="box">
                 <a href="https://scottishrefugeecouncil.org.uk/direct-support/employment/">Scottish Refugee Council</a>
+                <p>Offers employment support and guidance for refugees.</p>
             </div>
             <div class="box">
-                <a href="https://www.skillsdevelopmentscotland.co.uk/sds-support-for-refugees">Skills Development Scotland</a>
+                <a href="https://www.skillsdevelopmentscotland.co.uk/sds-support-for-refugees">SDS</a>
+                <p>Provides support and resources for refugees seeking employment.</p>
             </div>
             <div class="box">
                 <a href="https://www.thewelcoming.org/services/employment-support/">The Welcoming</a>
+                <p>Offers employment support and integration services for newcomers.</p>
             </div>
         </div>
+        <h2 style="text-align: center; color: darkblue;">Connect with other Refugees</h2>
 
         <div class="category">
-            <h2>Connect with other Refugees</h2>
             <div class="box">
-                <a href="https://www.example7.com">Box 7</a>
+                <a href="https://www.example7.com"></a>
+                <p></p>
             </div>
             <div class="box">
-                <a href="https://www.example8.com">Box 8</a>
+                <a href="https://www.example8.com"></a>
+                <p></p>
             </div>
             <div class="box">
-                <a href="https://www.example9.com">Box 9</a>
+                <a href="https://www.example9.com"></a>
+                <p></p>
             </div>
         </div>
+        <h2 style="text-align: center; color: darkblue;">Social Events</h2>
 
         <div class="category">
-            <h2>Social Events</h2>
             <div class="box">
-                <a href="https://www.example10.com">Box 10</a>
+                <a href="https://www.example10.com"></a>
+                <p></p>
             </div>
             <div class="box">
-                <a href="https://www.example11.com">Box 11</a>
+                <a href="https://www.example11.com"></a>
+                <p></p>
             </div>
             <div class="box">
-                <a href="https://www.example12.com">Box 12</a>
+                <a href="https://www.example12.com"></a>
+                <p></p>
             </div>
         </div>
     </body>
