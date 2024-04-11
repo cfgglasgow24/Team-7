@@ -63,7 +63,7 @@ class Mentor(CustomUser):
         return reverse('verify_mentor',args=[str(self.pk)])
     
 # mentee abstract model
-class Mentee(CustomUser):
+class Mentee():
     occupation = models.ForeignKey('Occupation',on_delete=models.SET_NULL,null=True,blank=True)
     interests = models.ManyToManyField('Interest', help_text="select your interests.")
 
@@ -71,7 +71,7 @@ class Mentee(CustomUser):
         return reverse('mentee_detail',args=[str(self.pk)])
     
 # events models
-class EventAbstract(models.Model):
+class EventAbstract():
     user = models.ForeignKey("CustomUser", on_delete=models.SET_NULL, null=True, blank=True)
     day = models.DateField(help_text='Event day', null=False, default=datetime.date.today)
     start_time = models.TimeField(help_text='Event start', null=False, default=datetime.datetime.now().time())
