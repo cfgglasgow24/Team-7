@@ -122,7 +122,6 @@ def nantik_administration(request):
 
     Returns:
         HttpResponse: rendering nantik_administration.html
-
     """
 
     users = []

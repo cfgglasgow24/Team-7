@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% block title %}<title>Open2Help</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-7VxIK5+uM8XABaJfddGrI7g0z67uihrZ90LlAeBV0Gcq3an/XdQ2T9+VoPzygd6Uq3E1hJCY1+H6wyMZmZP+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'fullcalendar/lib/main.css' %}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/8f87e642ae.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="icon" type="image/png" href="{% static 'imagenes/logoo_2.png' %}" sizes="48x48">
+
+  {% block extrahead %}{% endblock %}
+</head>
+
+<body>
+  {% load static %}
+  <!-- nav-right -->
+  <main>
+    <div class = "container-top-nav">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{% url 'index'%}">
+          <img class="logo_side_nav" src="{% static 'imagenes\Logo Open2Help_BLANCO.png' %}">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" style="vertical-align: center; padding: 5px;">
+            <li class="nav-item">
+              <a class ="text-nav" href="{% url 'index'%}">Inicio</a>
+            </li>
+            {% if request.user.mentor %}
+            <script>
+              document.getElementById("btn_m").style.display = "none"
+            </script>
+            {% elif request.user.mentee %}
+            <li class="nav-item">
+              <a class = "text-nav" href="{% url 'filter' %}">Buscar Mentor</a>
+            </li>
+            <script>
+              document.getElementById("btn_m").style.display = "none"
+            </script>
+            {% endif %}
+            {% if user.is_authenticated %}
+
+            <li class="nav-item">
+              <div class="dropdown dropstyle" style="margin-left: 15px;">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if request.user.mentor %}
+                    <span class= "drop-name"><img class = "drop-perfil" src = "{{ request.user.mentor.foto.url }}">{{ request.user.mentor.first_name }}</span>
+                  {% elif request.user.mentee %}
+                    <span class="drop-name"><img class = "drop-perfil" src = "{{ request.user.mentee.foto.url }}">{{ request.user.mentee.first_name }}</span>
+                  {% else %}
+                    <span class="drop-name"><img class = "drop-perfil" src = "{{ request.user.foto.url }}">{{ request.user.username }}</span>
+                  {% endif %}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {% if request.user.mentor %}
+                    <li><a class="dropdown-item" href="{% url 'perfil_mentor' %}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'solicitudes_mentor' %}">Solicitudes</a></li>
+                    <li><a class="dropdown-item" href="{% url 'index'%}">Calendario</a></li>
+                  {% elif request.user.mentee%}
+                    <li><a class="dropdown-item" href="{% url 'perfil_mentee' %}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'filter' %}">Buscar Mentor</a></li>
+                    <li><a class="dropdown-item" href="{% url 'index'%}">Calendario</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="{% url 'index'%}">Validaciones</a></li>
+                  {% endif %}
+                  
+                  <li><hr class="dropdown-divider"></li>
+                  <a class="dropdown-item" href="{% url 'logout' %}?next=/">Cerrar sesión<i class="fas fa-sign-out-alt" style="margin-left: 8px;"></i></a>
+
+                </ul>
+              </div>
+              </li>
+            {% else %}
+            <li class="nav-item">
+              <a class = "text-nav" href="{% url 'register_mentee' %}">Registrar Mentee</a>
+            </li>
+            <li class="nav-item">
+              <a class = "text-nav" href="{% url 'register_mentor'%}">Registrar Mentor</a>
+            </li>
+            <li class="nav-item">
+              <a class = "text-nav" href="{% url 'login' %}">Login</a>
+            </li>
+            <script>
+              document.getElementById("btn_m").style.display = "block"
+            </script>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+  </div>
+</main>
+
+<section class="parallax-section">
+  <!-- Content -->
+  <div class="col-sm-12 ">{% block content %}{% endblock %}</div> 
+
+  <!-- Footer -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+  <section id="section-109-78" class="ct-section">
+    <div class="ct-section-inner-wrap">
+      <div id="div_block-110-78" class="ct-div-block">
+        <div id="new_columns-115-78" class="ct-new-columns ">
+          <div class="row justify-content-center">
+            <div class="col-2">
+              <img id="image-665-19" alt src="{% static 'imagenes/logo-Google 1.png' %}" class="ct-image">
+            </div> 
+            <div class="col-2">
+              <img id="image-267-78" alt src="{% static 'imagenes/aws logo.png' %}" class="ct-image">
+            </div>
+            <div class="col-2">
+              <img id="image-126-78" alt src="{% static 'imagenes/Ericsson-Logo.png' %}" class="ct-image">
+            </div>
+            <div class="col-2">
+              <img id="image-666-19" alt src="{% static 'imagenes/nttdata_logo.png' %}" class="ct-image">
+            </div>
+            <div class="col-2">
+              <img id="image-666-20" alt src="{% static 'imagenes/immune_logo.png' %}" class="ct-image">
+            </div>
+          </div>
+          <div class="row justify-content-center" style="margin-top: 20px;">
+            <div class="col-2">
+            <img id="image-133-78" alt src="{% static 'imagenes/HP_logo_2012.png' %}" class="ct-image">
+            </div>
+            <div class="col-2">
+            <img id="image-131-78" alt src="{% static 'imagenes/sagardoy-logo.png' %}" class="ct-image">
+          </div>
+          <div class="col-2">
+            <img id="image-136-78" alt src="{% static 'imagenes/Randstad_Logo.png' %}" class="ct-image">
+          </div>
+          <div class="col-2">
+            <img id="image-111-03"alt src="{% static 'imagenes/Sap-logo-1 1.png' %}" class="ct-image">
+          </div>
+          <div class="col-2">
+            <img id="image-111-04"alt src="{% static 'imagenes/nantik_logo.png' %}" class="ct-image">
+          </div>
+        </div>
+        <hr>
+      <div class="row">
+    <p class="white-icon" style="margin-bottom: 30px; font-size: 14px;">SOCIAL MEDIA</p>
+    <div class="col-md-3">
+      <a class="text-muted" href="https://twitter.com/immuneinstitute">
+        <i class="fab fa-twitter fa-xl white-icon-smaller white-icon" id="iconos_psc"></i><p class="white-icon" style="margin-top: 5px;">Twitter</p>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a class="text-muted" href="https://www.facebook.com/immune.institute/">
+        <i class="fab fa-facebook fa-xl white-icon-smaller white-icon"></i><p class="white-icon" style="margin-top: 5px;">Facebook</p>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a class="text-muted" href="https://www.instagram.com/immuneinstitute/?fbclid=IwAR0s_hyrDbt9XgsRW3n1WRXmy_XYq8pKU5X211-AqwrKoi8aT1bK7CvdlKE">
+        <i class="fab fa-instagram fa-xl white-icon-smaller white-icon"></i><p class="white-icon" style="margin-top: 5px;">Instagram</p>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a class="text-muted" href="#">
+        <i class="far fa-envelope fa-xl white-icon-smaller white-icon"></i><p class="white-icon" style="margin-top: 5px;">Email</p>
+      </a>
+    </div>
+  </div>
+  <hr>
+    <div class="row justify-content-between" style="margin-bottom: 0;">
+      <p class="white-icon" style="margin-bottom: 30px; font-size: 14px">CONTACT</p>
+      <div class="col-md-3" id="hc" >
+        <a class="text-muted" href="#">
+          <i class="far fa-building fa-xl white-icon-smaller white-icon"> </i><p class="white-icon" style="margin-top: 5px;"> Paseo de la castellana 89, Madrid, Spain.</p>
+        </a>
+      </div>
+      <div class="col-md-3 " id="hc">
+        <a class="text-muted" href="#"><i class="far fa-envelope fa-xl white-icon-smaller white-icon"> </i><p class="white-icon" style="margin-top: 5px;"> open2help.notificaciones@immune.institute</p> 
+        </a>
+      </div>
+      <div class="col-md-3 " id="hc">
+        <a class="text-muted" href="#"><i class="fas fa-phone-square-alt fa-xl white-icon "></i><p class="white-icon" style="margin-top: 5px;"> Telefono +34 648 745 526</p>
+        </a>
+      </div>
+      <hr> 
+        </div>
+      </div>
+    </div>
+    <p class="text-muted-center text-center white-icon">Copyright © 2023 Open2Help & Immune Technology Institute</p> 
+  <br>
+  </section>
+</section>
+
+</body>
+</html> 
