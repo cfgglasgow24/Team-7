@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-{% extends "base_generic.html" %}
-{% files %}
-{% load CodeDivisionMentoring_template_tags %}
+<html>
 
-{% block title %}
-    Home
-{% endblock %}
-
-{% block stylesheet_block %}
+<head>
 <style>
     body {
         background-color: aliceblue;
+    }
+
+    p {
+        font-size: 20px;
     }
 
     .homepage {
@@ -45,18 +43,54 @@
             margin-bottom: 20px;
         }
     }
+
+    nav {
+        background-color: #333; /* Dark background color */
+    }
+
+    nav ul {
+        list-style-type: none; /* Remove bullets */
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Clear floats */
+    }
+
+    nav ul li {
+        float: left; /* Float the list items horizontally */
+    }
+
+    nav ul li a {
+        display: block; /* Make the links block-level elements */
+        color: white; /* Text color */
+        text-align: center; /* Center-align text */
+        padding: 14px 20px; /* Padding */
+        text-decoration: none; /* Remove underline */
+    }
+
+    nav ul li a:hover {
+        background-color: #555; /* Darker background color on hover */
+    }
+
+
 </style>
-{% endblock %}
-
-{% block body_block %}
-
+</head>
+<body>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="{% url 'CodeDivisionMentoring:home' %}">Home</a></li>
+            <li><a href="{% url 'CodeDivisionMentoring:cv' %}">CV Help</a></li>
+            <li><a href="{% url 'CodeDivisionMentoring:mentorship' %}">Request Mentoring</a></li>
+            <li><a href="{% url 'CodeDivisionMentoring:job_opportunities' %}">Job Opportunities</a></li>
+            <li><a href="{% url 'CodeDivisionMentoring:support' %}">External Support</a></li>
+        </ul>
+      </nav>
 <h1>Home Page</h1>
 
 <div class="homepage">
     <div class="left_home">
     <a href="{% url 'CodeDivisionMentoring:cv_workshop' %}">
         <div>
-            <h1>CV Workshops</h1><br>
+            <h1>CV Workshops</h1>
             <p>Gain valuable insights and tips on crafting an impressive CV that stands out to potential employers. Our workshops cover essential elements, formatting techniques, and best practices to help you showcase your skills and experiences effectively.</p>
         </div>
     </a>
@@ -65,7 +99,7 @@
     <div class="right_home">
     <a href="{% url 'CodeDivisionMentoring:mentorship' %}">
         <div>
-            <h1>Request Mentorship</h1><br>
+            <h1>Request Mentorship</h1>
             <p>Connect with experienced professionals who are eager to share their knowledge and support your career growth. Whether you're seeking guidance on a specific industry or looking for advice on navigating the job market, our mentorship program offers personalized assistance tailored to your needs.</p>
         </div>
     </a>
@@ -76,7 +110,7 @@
     <div class="left_home">
     <a href="{% url 'CodeDivisionMentoring:jop_opportunities' %}">
         <div>
-            <h1>Job Opportunities</h1><br>
+            <h1>Job Opportunities</h1>
             <p>Explore a variety of job openings across different industries and sectors. From entry-level positions to senior roles, our platform provides access to a diverse range of employment opportunities suitable for various skill levels and backgrounds.</p>
         </div>
     </a>
@@ -85,7 +119,7 @@
     <div class="right_home">
     <a href="{% url 'CodeDivisionMentoring:support' %}">
         <div>
-            <h1>External Support</h1><br>
+            <h1>External Support</h1>
             <p>Access resources and assistance beyond traditional job search strategies. Our platform offers support services for mental health, medical assistance, and other essential needs to ensure your well-being and resilience as you pursue your career goals.</p>
         </div>
     </a>
@@ -102,4 +136,5 @@
 
 </div>
 
-{% endblock %}
+</body>
+</html>
