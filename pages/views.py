@@ -16,7 +16,7 @@ def cv(request):
 def filter(request):
     return render(request, 'filter.html', {})
 
-def job_opportunitites(request):
+def job_opportunities(request):
     return render(request, 'job_opportunities.html', {})
 
 def login(request):
