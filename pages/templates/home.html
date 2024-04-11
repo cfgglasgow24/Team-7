@@ -1,64 +1,95 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .homepage {
-            display: flex;
-        }
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+{% load CodeDivisionMentoring_template_tags %}
 
+{% block title %}
+    Home
+{% endblock %}
+
+{% block stylesheet_block %}
+<style>
+    body {
+        background-color: aliceblue;
+    }
+
+    .homepage {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+    }
+        
+    .homepage .left_home,
+    .homepage .right_home {
+        width: 48%;
+        padding: 20px;
+        border: 5px outset deepskyblue;
+        border-radius: 10px;
+        background-color: white;
+        box-sizing: border-box;
+        background-color: lightskyblue;
+    }
+
+    .homepage a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .homepage {
+            flex-direction: column;
+        }
         .homepage .left_home,
         .homepage .right_home {
-            width: 48%;
-            padding: 20px;
-            border: 5px outset lightskyblue;
-            margin: 0;
-            border-radius: 10px;
-            background-color: white;
-            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 20px;
         }
+    }
+</style>
+{% endblock %}
 
-        @media only screen and (max-width: 768px) {
-            .homepage {
-                flex-direction: column;
-            }
-            .homepage .left_home,
-            .homepage .right_home {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>Home Page</h1>
+{% block body_block %}
 
-    <div class="homepage">
-        <a href="support.html">
-            <div class="left_home">
-                <h1>CV Workshops</h1><br>
-                <p>Gain valuable insights and tips on crafting an impressive CV that stands out to potential employers. Our workshops cover essential elements, formatting techniques, and best practices to help you showcase your skills and experiences effectively.</p>
-            </div>
-        </a>
+<h1>Home Page</h1>
 
-        <a href="">
-            <div class="right_home">
-                <h1>Request Mentorship</h1><br>
-                <p>Connect with experienced professionals who are eager to share their knowledge and support your career growth. Whether you're seeking guidance on a specific industry or looking for advice on navigating the job market, our mentorship program offers personalized assistance tailored to your needs.</p>
-            </div>
-        </a>
+<div class="homepage">
+    <div class="left_home">
+    <a href="{% url 'CodeDivisionMentoring:cv_workshop' %}">
+        <div>
+            <h1>CV Workshops</h1><br>
+            <p>Gain valuable insights and tips on crafting an impressive CV that stands out to potential employers. Our workshops cover essential elements, formatting techniques, and best practices to help you showcase your skills and experiences effectively.</p>
+        </div>
+    </a>
     </div>
-    <div class="homepage">
-        <a href="">
-            <div class="left_home">
-                <h1>Job Opportunities</h1><br>
-                <p>Explore a variety of job openings across different industries and sectors. From entry-level positions to senior roles, our platform provides access to a diverse range of employment opportunities suitable for various skill levels and backgrounds.</p>
-            </div>
-        </a>
-        <a href="">
-            <div class="right_home">
-                <h1>External Support</h1><br>
-                <p>Access resources and assistance beyond traditional job search strategies. Our platform offers support services for mental health, medical assistance, and other essential needs to ensure your well-being and resilience as you pursue your career goals.</p>
-            </div>
-        </a>
+
+    <div class="right_home">
+    <a href="{% url 'CodeDivisionMentoring:mentorship' %}">
+        <div>
+            <h1>Request Mentorship</h1><br>
+            <p>Connect with experienced professionals who are eager to share their knowledge and support your career growth. Whether you're seeking guidance on a specific industry or looking for advice on navigating the job market, our mentorship program offers personalized assistance tailored to your needs.</p>
+        </div>
+    </a>
     </div>
-</body>
-</html>
+</div>
+
+<div class="homepage">
+    <div class="left_home">
+    <a href="{% url 'CodeDivisionMentoring:jop_opportunities' %}">
+        <div>
+            <h1>Job Opportunities</h1><br>
+            <p>Explore a variety of job openings across different industries and sectors. From entry-level positions to senior roles, our platform provides access to a diverse range of employment opportunities suitable for various skill levels and backgrounds.</p>
+        </div>
+    </a>
+    </div>
+
+    <div class="right_home">
+    <a href="{% url 'CodeDivisionMentoring:support' %}">
+        <div>
+            <h1>External Support</h1><br>
+            <p>Access resources and assistance beyond traditional job search strategies. Our platform offers support services for mental health, medical assistance, and other essential needs to ensure your well-being and resilience as you pursue your career goals.</p>
+        </div>
+    </a>
+    </div>
+</div>
+
+{% endblock %}
