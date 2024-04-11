@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+{% extends "base_generic.html" %}
+
+{% block body_block %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,12 +11,20 @@
     <title>Login Page</title>
     <style>
         .containerBase {
-            background: #02918fe8;
+            background: deepskyblue;
             border-radius: 20px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
             text-align:left;
             margin-bottom: 80px;
             margin-top: 40px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f7fa;
         }
         .containerBaseInterior{
             padding: 20px;
@@ -97,4 +110,6 @@
 </div>
 
 </body>
+{% endblock %}
+
 </html>
