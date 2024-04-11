@@ -1,4 +1,10 @@
+{% extends "base_generic.html" %}
 
+{% block title %}
+    <title>Add Event</title>
+{% endblock %}
+
+{% block body_block %}
 
 <!DOCTYPE html>
 <html>
@@ -14,6 +20,7 @@
         h2 {
             text-align: center;
             margin-top: 50px;
+            color: darkblue; /* Dark blue for heading text */
         }
         form {
             margin: auto;
@@ -76,3 +83,59 @@
     </form>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>External Support</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #e0f7fa; /* Light blue background */
+            }
+            h1 {
+                text-align: center;
+                margin-top: 50px;
+                color: #01579b; /* Darker blue for heading text */
+            }
+
+            .category {
+                display: flex;
+                align-items: center; /* This centers the boxes and headings horizontally */
+                flex-wrap: wrap;
+                justify-content: center; /* This centers the content horizontally, change to 'flex-start' to align left */
+                margin-top: 50px;
+                text-align: center;
+            }
+
+            .category h2 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: #0277bd; /* Blue shade for subheadings */
+            }
+            .box {
+                justify-content: center;
+                align-items: center;
+                width: 200px;
+                height: 200px;
+                margin: 10px;
+                padding: 20px;
+                text-align: center;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-image: url('../static/img/background.avif');
+            }
+            .box a {
+                text-decoration: none;
+                color: #00838f; /* Teal for links */
+                font-weight: bold;
+            }
+        </style>
+    </head>
+     
+</html>
+
+{% endblock %}
