@@ -1,0 +1,89 @@
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+{% load CodeDivisionMentoring_template_tags %}
+
+{% block title %}
+    <title>Build your CV!</title>
+{% endblock %}
+
+{% block body_block %}
+
+<style>
+    body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 20px;
+            }
+
+h1, h2 {
+    color: #0056b3; 
+    margin-bottom: 10px;
+} 
+
+.cv-guide {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.cv-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eeeeee; /* Light grey to subtly separate sections */
+}
+
+ul li a:hover {
+                background-color: #cce1ff;
+            }
+</style>
+<div class="cv-guide">
+    <h1>Create your CV!</h1>
+
+    <section class="cv-section">
+        <h2>What is a CV?</h2>
+        <p>This is a document that shows your qualities when applying for any job. It includes your education, work experience and key skills to show that you are right for the role.</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Start building your's now!</h2>
+        <p>Follow the steps below and make your own CV to start applying for jobs.</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Step 1: About You</h2>
+        <p>Incude your name, full address and postcode and email address at the top of your document.</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Step 2: Schooling</h2>
+        <p>Talk about where you went to school or any training programs you completed. List the most recent education first. Include what you studied and any certificates or diplomas you received.</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Step 3: Work Experience</h2>
+        <p>List the jobs you've had, starting with the most recent one. For each job, write down the job title, where you worked, and what your main tasks were. If you helped achieve something great, mention that too!</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Step 4: What You're Good At</h2>
+        <p>Share the skills you have that make you great at your job. This could be languages you speak, computer programs you know, or other things you do well.</p>
+    </section>
+
+    <section class="cv-section">
+        <h2>Helpful Resources</h2>
+        <p>Use these links that might help you build a great CV:</p>
+        <ul>
+            <li><a href="https://cvgenius.com/cvg/best-cv-builder?utm_source=google&utm_medium=cpc&utm_campaign=20615810341&utm_term=automatic%20cv%20writer&network=g&device=c&adposition=&adgroupid=156004384300&placement=&adid=689490646216&gad_source=1&gclid=Cj0KCQjwlN6wBhCcARIsAKZvD5h1OVF9kQWlA4cm3c0LEkQfVHjCr3BJCAN5R0cNbz2qN_AK17XTh50aAnpBEALw_wcB" target="_blank">Online CV Builder</a> - A tool to create your CV easily online.</li>
+            <li><a href="https://www.livecareer.co.uk/lp/lukrsmlp09.aspx?utm_source=google&utm_medium=sem&utm_campaign=167812242&utm_term=cv%20template&network=g&device=c&adposition=&adgroupid=10186087122&placement=&adid=554581593522&gad_source=1&gclid=Cj0KCQjwlN6wBhCcARIsAKZvD5jfowU2XbL3tebzlcLm-g_Z8I40EIzytvwM4laNuC34BX91BrRjwYAaAr11EALw_wcB" target="_blank">CV Templates</a> - Templates to help you get started with your CV.</li>
+            <li><a href="https://resume.io/uk/cv-examples?ga_utm_source=google&utm_medium=ppc&utm_campaign=13241308953&utm_adgroup=EU-GBR-cv-template-example&utm_custom=resume.io-EU.UK-EN-search&utm_content=523724362036&utm_term=cv%20examples&matchtype=b&device=c&location=9045888&gad_source=1&gclid=Cj0KCQjwlN6wBhCcARIsAKZvD5jbpjfKYBG1msTaW7z9OWvZjo0ODb6kgBSIrK4-CnVKy5zQXoJJRH0aAns_EALw_wcB" target="_blank">CV Examples</a> - Examples of successful CVs in various fields.</li>
+            <li><a href="https://www.prospects.ac.uk/careers-advice/cvs-and-cover-letters/how-to-write-a-cv" target="_blank">Writing a CV - Tips and Advice</a> - Tips on how to write an effective CV.</li>
+        </ul>
+    </section>
+
+
+</div>
+
+{% endblock %}
