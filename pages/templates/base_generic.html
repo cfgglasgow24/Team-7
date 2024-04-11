@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -80,11 +81,32 @@
     <h1>Code Division Mentoring</h1>
     <nav>
       <ul class="nav-links">
-          <li><a href="home.html">Home</a></li>
-          <li><a href="cv.html">CV Help</a></li>
-          <li><a href="mentorship.html">Request Mentoring</a></li>
-          <li><a href="job_opportunities.html">Job Opportunities</a></li>
-          <li><a href="support.html">External Support</a></li>
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'home' %}">Home</a></li>
+          </li>
+
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'cv' %}">CV Help</a></li>
+          </li>
+
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'mentorship' %}">Request Mentoring</a></li>
+          </li>
+
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'job_opportunities' %}">Job opportunities</a></li>
+          </li>
+
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'support' %}">External Support</a></li>
+          </li>
+
+          <li class = "nav-item">
+            <a class="text-nav" href = "{% url 'support' %}">External Support</a></li>
+          </li>
+
+          
+
       </ul>
     </nav><br>
 

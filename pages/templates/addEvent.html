@@ -1,13 +1,9 @@
 
-{% block title %}<title> Send Petition to Mentor</title>{% endblock %}
-{% load static %}
-
-{% block content %}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Send Petition to Mentor</title>
+    <title>Add Event</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,7 +27,10 @@
             display: block;
             margin-bottom: 10px;
         }
-        textarea,
+        input[type="text"],
+        input[type="datetime-local"],
+        input[type="number"],
+        select,
         button {
             width: 100%;
             padding: 10px;
@@ -52,20 +51,28 @@
     </style>
 </head>
 <body>
-    <h2>Send petition to John Smith</h2>
-    <form method="POST" style="color: white; font-weight: bold;">
-        <div style="background: #02918fe8; border-radius: 20px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); text-align:left; margin-bottom: 80px; margin-top: 40px;">
-            <div style="padding: 20px;">
-                <h4 style="margin-top: 0; font-size: 1.2em; color: #e8e8e8;">Briefly explain why you want to contact John Smith</h4>
-                <textarea name="petitionMessage" class="large-textbox" placeholder="Enter your message here..."></textarea>
-                <div class="action-buttons">
-                    <button class="search-button">Send Petition</button>
-                </div>
-            </div>
-        </div>
+    <h2>Add Event</h2>
+    <form method="post">
+        <label for="location_name">Location Name:</label>
+        <input type="text" id="location_name" name="location_name">
+        <br><br>
+        <label for="time">Time:</label>
+        <input type="datetime-local" id="time" name="time">
+        <br><br>
+        <!-- Added activity dropdown menu -->
+        <label for="activity">Activity:</label>
+        <select id="activity" name="activity">
+            <option value="InterviewPrep">Interview Prep</option>
+            <option value="Social">Social</option>
+            <option value="Activity">Activity</option>
+            <!-- Add more options as needed -->
+        </select>
+        <br><br>
+        <!-- Added input fields for number of people required and currently signed up -->
+        <label for="people_required">Number of People Required:</label>
+        <input type="number" id="people_required" name="people_required">
+        <br><br>
+        <button type="submit">Save Event</button>
     </form>
 </body>
 </html>
-
-
-{% endblock %}
