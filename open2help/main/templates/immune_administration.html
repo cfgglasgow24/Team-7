@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block title %} <title>Administracion Immune</title> {% endblock %}
+
+{% block content %}
+
+<h1 class="tituloBlanco">Validación</h1>
+  <div class="col-md-12">
+    <div class="h-80 p-5 cardPerfil border rounded-3">
+    {% for user in users %}
+        {% if user.is_active %}
+        <div class="row">
+          <div class="white_entry">
+            <div class="col-sm column">
+              <p><strong>{{ user.email }}</strong></p>
+              <p>{{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+            <div class="col-sm column">
+                <a href="{{ user.get_absolute_url_deactive }}">Deshabilitar usuario</a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div> 
+  </div>
+
+{% endblock %}

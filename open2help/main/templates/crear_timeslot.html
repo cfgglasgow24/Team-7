@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>Crear Timeslots</title>{% endblock %}
+{% block extrahead %}{% load static %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+
+{% block content %}
+
+{% comment %} recycles event CSS class for convenience {% endcomment %}
+<form action="" method="post" class="form_events" enctype="multipart/form-data">
+    <h1 class="tituloBlanco">Crear timeslot</h1>
+
+    <div class="containerBase">
+        <div class="containerBaseInterior">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Crear" class="button" >
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

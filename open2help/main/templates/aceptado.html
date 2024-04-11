@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Su solicitud ha sido aceptada</title>
+</head>
+<body style="font-family: Montserrat, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0;">
+	<div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffffc6; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
+		<h1 style="color: #2eb99f; text-align: center;">Su solicitud ha sido aceptada por {{ mentor.username }}</h1>
+		<p>{{ mentee.username }},</p>
+		<p>Gracias por haber enviado su solicitud, nos alegra informarte que su mentor escogido, {{ mentor.username }}, ha aceptado la solicitud.</p>
+		<p>Para acceder a la videollamada, pinche en el siguiente url:  <a href="{{ videocall_url }}">link</a>.</p>
+		<p>Es un placer poder ayudarle.</p>
+		<p>Atentamente,<br>El equipo de Open2Help</p>
+	</div>
+</body>
+</html>

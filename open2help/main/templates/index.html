@@ -1,0 +1,572 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+  <title>Home</title>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+{% if user.is_authenticated%}
+<container>
+<div class="row">
+  <meta charset='utf-8' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+  <script>
+    var calendarEl;
+    var calendar; // declare calendar variable outside the event listener
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+          {% for event in eventList %}
+            {
+              title: "{{ event }}",
+              start: '{{ event.day | date:"Y-m-d" }}T{{ event.start_time|time:"H:i" }}',
+              end: '{{ event.day | date:"Y-m-d" }}T{{ event.end_time|time:"H:i" }}',
+            },
+          {% endfor %}
+          {% for meeting in meetingList %}
+            {
+              title: "{{ meeting }}",
+              start: '{{ meeting.day | date:"Y-m-d" }}T{{ meeting.start_time|time:"H:i" }}',
+              end: '{{ meeting.day | date:"Y-m-d" }}T{{ meeting.end_time|time:"H:i" }}',
+              color: 'red',
+            },
+          {% endfor %}
+          {% if request.user.mentor %}
+            {% for timeslot in timeslotList %}
+              {
+                title: "{{ timeslot }}",
+                start: '{{ timeslot.day | date:"Y-m-d"}}T{{ timeslot.start_time|time:"H:i" }}',
+                end: '{{ timeslot.day | date:"Y-m-d"}}T{{ timeslot.end_time|time:"H:i" }}',
+                color: 'green',
+              },
+            {% endfor %}
+          {% endif %}
+        ],
+        eventOrder: "start",
+        eventMouseEnter: function(info) {
+          var tooltip = new Tooltip(info.el, {
+            title: info.event.title,
+            placement: 'top',
+            trigger: 'hover',
+            container: 'body'
+          });
+        },
+        eventMouseLeave: function(info) {
+          tooltip.dispose();
+        },
+        eventClick: function(info) {
+          // Create a popup with the event details
+          var popup = document.createElement('div');
+          popup.id = 'event-details-popup';
+          popup.innerHTML = `
+            <h3>${info.event.title}</h3>
+            <p><strong>Fecha:</strong> ${info.event.start.toLocaleDateString()}</p>
+            <p><strong>Hora de inicio:</strong> ${info.event.start.toLocaleTimeString()}</p>
+            <p><strong>Hora de finalización:</strong> ${info.event.end.toLocaleTimeString()}</p>
+          `;
+
+          // add close button to popup
+          var closeButton = document.createElement('button');
+          closeButton.innerHTML = 'Cerrar';
+          closeButton.addEventListener('click', function() {
+            popup.style.display = 'none';
+          });
+          popup.appendChild(closeButton);
+          
+          // add popup to body
+          document.body.appendChild(popup);
+          
+          // show popup
+          popup.style.display = 'block';
+        }
+      });
+
+      var createEventButton = {
+        text: 'Crear evento',
+        click: function() {
+          location.href = "{% url 'eventos' %}"
+        }
+      };
+      {% if request.user.mentor %}
+      var createTimeslotButton = {
+        text: 'Crear timeslot',
+        click: function() {
+          location.href = "{% url 'timeslots' %}"
+        }
+      };
+      calendar.setOption('customButtons', {
+        createEventButton: createEventButton,
+        createTimeslotButton: createTimeslotButton,
+      });
+      calendar.setOption('headerToolbar', {
+        left: 'createEventButton createTimeslotButton',
+        center: 'title',
+        right: 'today dayGridMonth,timeGridWeek,timeGridDay prev,next'
+      });
+      {% else %}
+      calendar.setOption('customButtons', {
+        createEventButton: createEventButton
+      });
+      calendar.setOption('headerToolbar', {
+        left: 'createEventButton',
+        center: 'title',
+        right: 'today dayGridMonth,timeGridWeek,timeGridDay prev,next'
+      });
+      {% endif %}
+
+      calendar.render();
+      calendar.setOption("locale", "es");
+    });
+  </script>
+
+  <div class="col-md-9">
+    <link rel ="stylesheet"  href="{% static 'css/index.css' %}"> 
+    <div id="calendar" class="card" style="padding: 10px;"></div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="row" style="padding-right: 10px;">
+      <div class="eventos">
+        <h2>Eventos 
+          <span class="info-icon" title="Eventos solo disponibles para usted">
+            <i class="fas fa-info-circle" style="color: #3788d8; background-color: white; border-radius: 100%;"></i>
+          </span>
+        </h2>
+          {% if not eventList %}
+            <br>
+              <div class="eventos2">
+                No hay eventos<br>
+              </div>
+            <br>
+          {% else %}
+          {% for event in eventList %}
+            <br>
+              <div class="eventos2">
+                <div class="row" style="margin-bottom: 0px;">
+                  <div class="col-6">
+                    {{ event }}<br>
+                    <u>Fecha:</u> {{ event.day | date:"Y-m-d" }}<br>
+                    <u>Inicio:</u> {{ event.start_time|time:'H:i' }}<br>
+                    <u>Finalización:</u> {{ event.end_time|time:'H:i' }}<br>
+                  </div>
+                  <div class="col-6 d-flex justify-content-center align-items-center">
+                    <form id="delete-event-form" method="post" action="{% url 'eliminar_evento' event_id=event.id %}">
+                      {% csrf_token %}
+                      <div id="delete-event-wrapper">
+                        <input id="delete-event-btn" type="submit" value="Delete">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <br>
+          {% endfor %}
+          {% endif %}
+      </div>
+      {% if request.user.mentor %}
+      <div class="eventos" style="margin-top: 10px;">
+        <h2>Timeslots
+          <span class="info-icon" title="Intervalos de tiempo para videollamadas de aprendices">
+            <i class="fas fa-info-circle" style="color: #008000; background-color: white; border-radius: 100%;"></i>
+          </span>
+        </h2>
+          {% if not timeslotList %}
+            <br>
+              <div class="eventos2">
+                No hay timeslots<br>
+              </div>
+            </br>
+          {% else %}
+          {% for timeslot in timeslotList %}
+            <br>
+              <div class="eventos2">
+                <div class="row" style="margin-bottom: 0px;">
+                  <div class="col-6">
+                    {{ timeslot }}<br>
+                    <u>Fecha:</u> {{ timeslot.day | date:"Y-m-d" }}<br>
+                    <u>Inicio:</u> {{ timeslot.start_time|time:'H:i' }}<br>
+                    <u>Finalización:</u> {{ timeslot.end_time|time:'H:i' }}<br>
+                  </div>
+                  <div class="col-6 d-flex justify-content-center align-items-center">
+                    <form id="delete-event-form" method="post" action="{% url 'eliminar_timeslot' timeslot_id=timeslot.id %}">
+                      {% csrf_token %}
+                      <div id="delete-event-wrapper">
+                        <input id="delete-event-btn" type="submit" value="Delete">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <br>
+          {% endfor %}
+          {% endif %}
+        <br>
+      </div>
+      <div class="eventos" style="margin-top: 10px;">
+        <h2>Solicitudes</h2>
+        {% if not solicitudes %}
+          <br>
+            <div class="eventos2">
+              No hay solicitudes<br>
+            </div>
+          </br>
+        {% else %}
+          <a style="text-align: center;"  href="{% url 'solicitudes_mentor' %}" class="tituloBlanco">Ir a Solicitudes </a>
+          {% for solicitud in solicitudes %}
+            <br>
+            <div class="eventos2">
+              <u>Email:</u> {{ solicitud.user_mentee }}<br>
+              {% if solicitud.get_state_display == "Aceptado" %}
+              <u>Status:</u> <span style="color: green;">{{ solicitud.get_state_display }}</span><br>
+              <u>URL:</u> <a href="{{ solicitud.videocall_url }}">videocall url</a><br>
+              {% elif solicitud.get_state_display == "Denegado" %}
+              <u>Status:</u> <span style="color: red;">{{ solicitud.get_state_display }}</span><br>
+              {% elif solicitud.get_state_display == "Pendiente" %}
+              <u>Status:</u> <span style="color: orange;">{{ solicitud.get_state_display }}</span><br>
+              {% elif solicitud.get_state_display == "Redirigido" %}
+              <u>Status:</u> <span style="color: blue;">{{ solicitud.get_state_display }}</span><br>
+              {% endif %}
+            </div>
+            <br>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% elif request.user.mentee %}
+      <div class="eventos" style="margin-top: 10px;">
+        <h2>Solicitudes</h2>
+        {% if not solicitudes %}
+          <br>
+            <div class="eventos2">
+              No hay solicitudes<br>
+            </div>
+          </br>
+        {% else %}
+          <a style="text-align: center;"  href="{% url 'filter' %}" class="tituloBlanco">Hacer Solicitud</a>
+          {% for solicitud in solicitudes %}
+            <br>
+            <div class="eventos2">
+              <u>Mentor:</u> {{ solicitud.user_mentor.first_name }}<br>
+              {% if solicitud.get_state_display == "Aceptado" %}
+              <u>Status:</u> <span style="color: green;">{{ solicitud.get_state_display }}</span><br>
+              <u>URL:</u> <a href="{{ solicitud.videocall_url }}">videocall url</a><br>
+              <u>Timeslots Disponibles:</u>
+              <li style="list-style: none;">
+                {% if not mentorTimeslots %}
+                  <p>No hay timeslots de mentor<p>
+                {% else %}
+                {% for mentorTimeslot in mentorTimeslots %}
+                  <br>
+                  <div class="eventos3">
+                    {{ mentorTimeslot }}<br>
+                    Fecha: {{ mentorTimeslot.day | date:"Y-m-d" }}<br>
+                    {% if mentorTimeslot.is_reserved %}
+                      <form id="reserve-form" method="post" action="{% url 'crear_meeting' pk=solicitud.user_mentor.pk timeslot_id=mentorTimeslot.id day=mentorTimeslot.day|date:'Y-m-d' start_time=mentorTimeslot.start_time|time:'H:i' end_time=mentorTimeslot.end_time|time:'H:i' title=mentorTimeslot.title videocall_url=solicitud.videocall_url|urlencode %}">
+                        {% csrf_token %}
+                        <div id="reserve-wrapper">
+                          <input id="reserve-btn" style="margin-top: 3px; color: red;" type="submit" value="Anular">
+                        </div>
+                      </form>
+                    {% else %}
+                      <form id="reserve-form" method="post" action="{% url 'crear_meeting' pk=solicitud.user_mentor.pk timeslot_id=mentorTimeslot.id day=mentorTimeslot.day|date:'Y-m-d' start_time=mentorTimeslot.start_time|time:'H:i' end_time=mentorTimeslot.end_time|time:'H:i' title=mentorTimeslot.title videocall_url=solicitud.videocall_url|urlencode %}">
+                        {% csrf_token %}
+                        <div id="reserve-wrapper">
+                          <input id="reserve-btn" style="margin-top: 3px;" type="submit" value="Reservar">
+                        </div>
+                      </form>
+                    {% endif %}
+                  </div>
+                  <br>
+                {% endfor %}
+                {% endif %}
+              </li>
+              {% elif solicitud.get_state_display == "Denegado" %}
+              <u>Status:</u> <span style="color: red;">{{ solicitud.get_state_display }}</span><br>
+              {% elif solicitud.get_state_display == "Pendiente" %}
+              <u>Status:</u> <span style="color: orange;">{{ solicitud.get_state_display }}</span><br>
+              {% elif solicitud.get_state_display == "Redirigido" %}
+              <u>Status:</u> <span style="color: blue;">{{ solicitud.get_state_display }}</span><br>
+              {% endif %}
+            </div>
+            <br>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="eventos" style="margin-top: 10px;">
+        <h2>Meetings 
+          <span class="info-icon" title="Videollamada configurada según sus franjas horarias (timeslots)">
+            <i class="fas fa-info-circle" style="color: #fe0000; background-color: white; border-radius: 100%;"></i>
+          </span>
+        </h2>
+        {% if not meetingList %}
+          <br>
+            <div class="eventos2">
+              No hay videollamadas<br>
+            </div>
+          </br>
+        {% else %}
+          {% for meeting in meetingList %}
+            <br>
+            <div class="eventos2">
+              <u>Mentee:</u> {{ meeting.user_mentee }}<br>
+              <u>Mentor:</u> {{ meeting.user_mentor }}<br>
+              <u>Fecha:</u> {{ meeting.day | date:"Y-m-d" }}<br>
+              <u>Start Time:</u> {{ meeting.start_time|time:'H:i' }}<br>
+              <u>End Time:</u> {{ meeting.end_time|time:'H:i' }}<br>
+              <button onclick="openVideoCall('{{ meeting.videocall_url }}', '{{ meeting.id }}', '{{ meeting.user_mentor.pk }}')">Join Videocall</button><br>
+              {% if request.user.mentee %}
+                <label style="display: none;" id="rating-label-{{ meeting.id }}">How would you rate your mentor?</label><br>
+                <div class="rating-wrapper">
+                  <div style="display: none;" id="rating-data-id-{{ meeting.id }}" class="ratings">
+                    <span style="margin: 0px;" data-meeting="{{ meeting.id }}" data-rating="5" data-pk="{{ meeting.user_mentor.pk }}">&#9733;</span>
+                    <span style="margin: 0px;" data-meeting="{{ meeting.id }}" data-rating="4" data-pk="{{ meeting.user_mentor.pk }}">&#9733;</span>
+                    <span style="margin: 0px;" data-meeting="{{ meeting.id }}" data-rating="3" data-pk="{{ meeting.user_mentor.pk }}">&#9733;</span>
+                    <span style="margin: 0px;" data-meeting="{{ meeting.id }}" data-rating="2" data-pk="{{ meeting.user_mentor.pk }}">&#9733;</span>
+                    <span style="margin: 0px;" data-meeting="{{ meeting.id }}" data-rating="1" data-pk="{{ meeting.user_mentor.pk }}">&#9733;</span>
+                  </div>
+                </div><br>
+                <label style="display: none;" id="rating-message-id-{{ meeting.id }}">Thank you for rating {{ meeting.user_mentor.first_name }}!</label><br>
+                <script>
+                  function submitRating(pk, rating) {
+                    const csrftoken = getCookie('csrftoken');
+
+                    fetch(`modificar_rating/${pk}/${rating}/`, {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        pk: pk,
+                        rating: rating
+                      }),
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                      }
+                    })
+                    .then(response => {
+                      console.log("Success: Inserted rating " + rating + " for mentor " + pk);
+                    })
+                    .catch(error => {
+                      console.error('Error:', error);
+                    })
+                  }
+
+                  function getCookie(name) {
+                    const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+                    return cookieValue ? cookieValue.pop() : '';
+                  }
+
+                  let stars = document.querySelectorAll(".ratings span");
+                  let products = document.querySelectorAll(".ratings");
+                  var clicked = false;
+
+                  for (let star of stars) {
+                    star.addEventListener("click", function() {
+                      // console.log(this.hasAttribute("data-clicked"));
+                      if (!clicked) {
+                        this.setAttribute("data-clicked", "true");
+                        let pk = this.dataset.pk;
+                        let rating = this.dataset.rating;
+
+                        console.log(pk, rating);
+
+                        // submit rating using AJAX http post request
+                        submitRating(pk, rating);
+
+                        // change context
+                        var messageRating = document.getElementById('rating-message-' + meetingId);
+                        messageRating.style.display = 'block';
+                        clicked = true;
+                      } 
+                    }); 
+                  }
+                </script>
+              {% endif %}
+            </div>
+            <br>
+          {% endfor %}
+          
+          <script>
+            function openVideoCall(url, meetingId, mentorId) {
+              window.open(url, '_blank');
+              var ratingLabel = document.getElementById('rating-label-' + meetingId);
+              ratingLabel.style.display = 'block';
+              var ratings = document.getElementById('rating-data-id-' + meetingId);
+              ratings.style.display = 'flex';
+            }
+
+            function displayMessage(meetingId) {
+              var ratingMessage = document.getElementById('rating-message-id-' + meetingId);
+              ratingMessage.style.display = 'block';
+            }
+
+            document.querySelector('.rating-wrapper').addEventListener('click', function(event) {
+              if (event.target.tagName === 'SPAN') {
+                displayMessage(event.target.getAttribute('data-meeting'));
+              }
+            });
+          </script>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if not user.is_authenticated %}
+<main>
+  <div class="p-5 text-center bg-image">
+    <div class="mask" style="background-color: #23444b61;">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <h1>
+            <img src="{% static 'imagenes\logo_immune_transparente.png' %}" alt="another logo" style="width: 90%; height: 50%;">
+        </h1>
+      </div>
+    </div>
+<br><br><br>
+<div class="botones_rg" style="font-family: 'Montserrat', sans-serif;">
+  <a class="btn btn-primary boton_rg" id="btn_m" href="{% url 'register_mentee' %}" style="border-color: #47c6bd; margin-left: 180px"><b>Unirme como mentee</b></a>
+  <a class="btn btn-primary boton_rg" id="btn_m" href="{% url 'register_mentor' %}" style="margin-right: 180px;"><b>Unirme como mentor</b></a> 
+</div>
+</div>
+
+<section class="como_es">
+  <h1>Como es la</h1>
+  <h1 style="color:#02918e; margin-top: -1%">plataforma</h1>
+  <div style="display: flex; justify-content: center">
+    <p style="padding: 25px; text-align: left;"> <span style="color:#33D9BE;">>>></span> Una plataforma gratuita e innovadora para dar asesoramiento <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;en mejorar la empleabilidad. En ella encontrarás:</p>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-sm" style="margin-right: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 1.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Programa Mentor Findez</b></h4>
+          <p style="text-align: center; width: 50%;">Haz un match mentor-mentee</p>
+        </div>
+      </div>
+      <div class="col-sm" style="margin-left: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 4.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Webinars</b></h4>
+          <p style="text-align: center; width: 50%;">Accede a contenido extra y gratuito para mejorar la marca personal.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <div class="col-sm" style="margin-right: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 2.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Agencia de Mentorias</b></h4>
+          <p style="text-align: center; width: 50%;">Solicita, calendariza y accede las sesiones</p>
+        </div>
+      </div>
+      <div class="col-sm" style="margin-left: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 5.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Cursos de formación gratuita</b></h4>
+          <p style="text-align: center; width: 50%;">Aprovecha los recursos proporcionados por el mentor</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm" style="margin-right: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 3.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Sistema de puntuación</b></h4>
+          <p style="text-align: center; width: 50%;">Puntúa las sesiones de asesoramiento</p>
+        </div>
+      </div>
+      <div class="col-sm" style="margin-left: -90px;">
+        <div class="row">
+          <img src="{% static "imagenes\Icono 6.svg" %}" alt="icon programa mentor" class="img_ic" style="margin-bottom: 10px;">
+          <h4 style="text-align: center;"><b>Networking</b></h4>
+          <p style="text-align: center; width: 50%;">Disfruta la oportunidad de construir relaciones profesionales</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quien_es">
+  <div class="white_object">
+    <h1 style="text-align: center;">
+      Para <span style="color:#02918e;">quién</span> es
+    </h1>
+    <div style="display: flex; justify-content: center">
+      <p style="padding: 25px; text-align: left;">
+        <span style="color:#33D9BE"> >>> </span>Con la unión del
+        <b>mentor</b> y <b>mentee</b> conseguimos dar
+        <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a conocer las oportunidades de future en el sector tech:
+      </p>
+    </div>
+    <div class="container_quien">
+      <div class="row">
+        <div class="col-sm column">
+          <div class="white_object" style="width: 70%; margin-right: -20%">
+            <img src="{% static "imagenes\ilustracion_mentee.svg" %}" alt="icon programa mentor" class="img_ic_2" style="margin-bottom: 10px;">
+            <h4 style="text-align: center;"><b>Mentee</b></h4>
+            <p style="text-align: center;">
+              Perfiles que quieren <b>reinventarse</b> y escoger un
+              <b>camino tecnológico</b> para mejorar en su carrera profesional
+            </p>
+          </div>
+        </div>
+        <div class="col-sm column">
+          <div class="white_object" style="width: 70%; margin-left: -20%">
+            <img src="{% static "imagenes\ilustracion_mentor.svg" %}" alt="icon programa mentor" class="img_ic_2" style="margin-bottom: 10px;">
+            <h4 style="text-align: center;"><b>Mentor</b></h4>
+            <p style="text-align: center;">
+              Profesores/as, Mentores/as o Directivos/as con
+              <b>espíritu de transformación</b> que acompañan a los mentee en su
+              <b>transformación digital</b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="margin: 40px; padding: 20px; background-color: #ffffff; border-radius: 25px; text-align: center;">
+  <h1 style="text-align: center;">
+      Nuestro <span style="color:#02918e;">proceso</span>
+  </h1>
+  <img src="{% static 'imagenes/Captura_proceso_OPEN2HELP-transformed.png' %}" alt="another logo" style = "width: 94%;">
+</section>
+
+<section style="margin: 40px; padding: 15px; text-align: center;">
+  <h1 style="text-align:center; font-size:48px; margin-bottom: 40px; color:#ffffff;">Que es <span style="color:#33D9BE;font-size:48px">Open2Help</span></h1>
+  <div class="container_what">
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="{% static 'imagenes\Notebook.png' %}" alt="another logo" style="width:100%;">
+      </div>
+      <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: space-between; background-color: rgba(35, 68, 75, 0.7); border-radius: 10px; padding: 30px;">
+        <b><p style="text-align: center; color: #33D9BE; font-size:25px">Open2Help:</b></p>
+        <div style="display: flex; justify-content: center;">
+          <p style="color: #FFFFFF; text-align: left; width: 74%;">Es una iniciativa techie para hacer match entre profesionales en busca de talento tecnologico con mentores/as, para encontrar trabajo en cinco areas tecnologicas</p>
+        </div>
+        <p class="sectors_tec"><b>Data and Artificial Inteligence</b></p>
+        <p class="sectors_tec"><b>Web Programming</b></p>
+        <p class="sectors_tec"><b>Blockchain</b></p>
+        <p class="sectors_tec"><b>Cloud Computing</b></p>
+        <p class="sectors_tec"><b>Cibersecurity</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+{% endif %}
+
+{% endblock %}
+
+
+
+
+

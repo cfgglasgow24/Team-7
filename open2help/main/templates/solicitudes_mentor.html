@@ -1,0 +1,71 @@
+{% extends "base_generic.html" %}
+
+{% block title %} <title>Solicitudes Mentor</title> {% endblock %}
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-qsi5I0aZ1xnjZiHiJmb7AyAfzGwzm0h6GlzNNfvoV4STjzPohiV7L2GmiKjHtlu+" crossorigin="anonymous">
+</head>
+{% block content %}
+{% load static %}
+
+<h1 class="tituloBlanco">Solicitudes</h1>
+  <div class="col-md-12">
+    <div class="h-80 p-5 cardPerfil border rounded-3">
+    <ul class="card-list">
+      <li class="card peticion">
+        <div class="row justify-content-between align-items-center" style="margin: 0px; color: black;">
+          <div class="col-3">
+            <h5 style="margin: 0px;">User</h5>
+          </div>
+          <div class="col-3"> 
+            <h5 style="margin: 0px;">Message</h5>
+          </div>
+          <div class="col-3">
+            <h5 style="margin: 0px;">Status</h5>
+          </div>
+        </div>
+      </li>
+      {% if solicitudes %}
+      {% for solicitud in solicitudes %}
+        <li class="card peticion">
+          <div class="row justify-content-between align-items-center" style="margin: 0px; color: black;">
+            <div class="col-3">
+              <a href="{{ solicitud.user_mentee.get_absolute_url }}">{{ solicitud.user_mentee }}</a>
+            </div>
+            <div class="col-3">
+              {{ solicitud.message }}
+            </div>
+            <div class="col-3">
+              <div id="editDiv" style="display: block;">
+                {% if solicitud.get_state_display == "Pendiente" %}
+                <div class="groupBotonesAcepDen"> 
+                  <a href="{{ solicitud.get_absolute_url_estado_aceptado }}" class="btn"  style="background-color:#327786";>A</a>
+                  <a href="{{ solicitud.get_absolute_url_estado_denegado }}" class="btn"  style="background-color:#be422c";>D</a>
+                  <form action="{{ solicitud.get_absolute_url_estado_recomendado }}" method="POST" target="_blank" class="col-4">
+                    <p>
+                      {% csrf_token %}
+                      Buscar mentor: <input type="search" list="listamentor">
+                      <input type="submit" class="btn send-profile-button" value="Recomendar">
+                    <p>
+                  </form>
+                  <datalist id="listamentor">
+                    {% for ment in mentors %}
+                    <option value={{ ment.username }}></option>
+                    {% endfor %}
+                  </datalist>
+                </div>
+                {% elif solicitud.get_state_display == "Aceptado" %}
+                <div style="color: green;"> 
+                  Aceptado
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+      {% endif %}
+    </li>
+    </div>
+  </div>
+
+{% endblock %}

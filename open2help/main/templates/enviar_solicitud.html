@@ -1,0 +1,24 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}<title> Enviar solicitud a mentor</title>{% endblock %}
+{% block extrahead %}{% load static %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+
+
+{% block content %}
+
+<form action="" method="POST" style="color: white; font-weight: bold;">
+    <h1 class="tituloBlanco">Enviar solicitud a {{ mentor.username }}</h1>
+    
+    <div class="containerBase">
+        <div class="containerBaseInterior">
+            <h4 class="resumenSolicitud"> Resuma brevemente porque desea ser mentorizado por {{ mentor.username}}</h4>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Enviar Solicitud" class="button">
+            {% comment %} href="{% url 'index'%}" {% endcomment %}
+        </div>
+    </div>
+</form>
+
+{% endblock %}

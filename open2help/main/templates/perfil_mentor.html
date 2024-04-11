@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block title %} <title>Perfil Mentor</title> {% endblock %}
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-qsi5I0aZ1xnjZiHiJmb7AyAfzGwzm0h6GlzNNfvoV4STjzPohiV7L2GmiKjHtlu+" crossorigin="anonymous">
+</head>
+{% block content %}
+{% load static %}
+
+<h1 class="tituloBlanco">Mi Perfil</h1>
+  <div class="col-md-12">
+    <div class="h-80 p-5 cardPerfil border rounded-3">
+      {% if mentor %}
+        <img class="imgPerfil" src="{{ mentor.foto.url }}" width="250em" height="250em"></img>
+        <p><b><i>Nombre:</b></i> {{ mentor.first_name }} {{ mentor.last_name }}</p>
+        <p><b><i>Direccion:</b></i> {{ mentor.adress }}</p>
+        <p><b><i>Ciudad:</b></i> {{ mentor.city }}</p>
+        <p><b><i>Provincia:</b></i> {{ mentor.province }}</p>
+        <p><b><i>LinkedIn:</b></i> {{ mentor.linkedin }}</p>
+        <p><b><i>Telefono:</b></i> {{ mentor.phone }}</p>
+        <p><b><i>Codigo postal:</b></i> {{ mentor.cp }}</p>
+        <p><b><i>¿Cómo nos has conocido?:</b></i> {{ mentor.how_you_found_us }}</p>
+        <p><b><i>Email:</b></i> {{ mentor.email }}</p>
+        <p><b><i>Fecha de nacimiento:</b></i> {{ mentor.birth }}</p>
+        <p><b><i>Compañia:</b></i> {{ mentor.company }}</p>
+        <p><b><i>Cargo:</b></i> {{ mentor.charge }}</p>
+        <p><b><i>Conocimientos:</b></i> {{ mentor.knowledge.all|join:", " }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

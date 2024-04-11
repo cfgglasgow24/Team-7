@@ -1,0 +1,68 @@
+{% extends "base_generic.html" %}
+
+{% block title %} <title>Administracion Nantik</title> {% endblock %}
+
+{% block content %}
+
+<h1 class="tituloBlanco">Validaciones</h1>
+  <div class="col-md-12">
+    <div class="h-80 p-5 cardPerfil border rounded-3">
+    <ul class="card-list">
+      <li class="card peticion">
+        <div class="row" style="margin: 0px; color: black;">
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5 style="margin: 0px;">Email</h5>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5 style="margin: 0px;">Nombre</h5>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2"> 
+            <h5 style="margin: 0px;">Compañía</h5>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5 style="margin: 0px;">Ocupación</h5>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5 style="margin: 0px;">How you found us</h5>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <h5 style="margin: 0px;">Conocimientos</h5>
+          </div>
+        </div>
+      </li>
+      {% for user in users %}
+        {% if not user.is_verified %}
+          <li class="card peticion">
+            <div class="row" style="margin: 0px; color: black;">
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                <strong style="font-size: 14px;">{{ user.email }}</strong>
+              </div>
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                {{ user.company }}
+              </div>
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                {{ user.charge }}
+              </div>
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                {{ user.how_you_found_us }}
+              </div>
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                {{ user.knowledge.all|join:", " }}
+              </div>
+            </div>
+            <div class="row" style="margin-top: 20px; margin-bottom: 0px; color: black; text-align: center;">
+              <div>
+                <a style="background-color: #1f3c42; padding: 5px; border-radius: 5px; color: white;" href="{{ user.get_absolute_url_verify }}">Activar mentor</a>
+              </div>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+
+{% endblock %}
