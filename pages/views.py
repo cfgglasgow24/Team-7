@@ -39,3 +39,6 @@ def register_mentor(request):
 
 def support(request):
     return render(request, 'support.html', {})
+
+def addEvent(request):
+    return render(request, 'addEvent.html', {})
